@@ -9,3 +9,4 @@ client.connect();
 const query = client.query(
   'CREATE TABLE test(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, funkar BOOLEAN)');
 query.on('end', () => { client.end(); });
+
