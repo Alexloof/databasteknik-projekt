@@ -12,7 +12,7 @@ CREATE TABLE Subcategory
     name varchar(40) NOT NULL UNIQUE,
     parent_category int NOT NULL,
 
-    FOREIGN KEY (parent_category) REFERENCES Category(id)
+    FOREIGN KEY (parent_category) REFERENCES Category(category_id)
 );
 
 CREATE TABLE Article
@@ -23,12 +23,12 @@ CREATE TABLE Article
     subcategory int NOT NULL,
     created_at TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (subcategory) REFERENCES Subcategory(id)
+    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id)
 );
 
 CREATE TABLE Author
 (
-    socialsecuritynumber int NOT NULL PRIMARY KEY,
+    socialsecuritynumber bigint NOT NULL PRIMARY KEY,
     firstname varchar(30) NOT NULL,
     surname varchar(30) NOT NULL,
     comment text
@@ -37,11 +37,11 @@ CREATE TABLE Author
 CREATE TABLE Article_author
 (
     article_id int,
-    socialsecuritynumber int,
+    socialsecuritynumber bigint,
 
     PRIMARY KEY (article_id, socialsecuritynumber),
 
-    FOREIGN KEY (article_id) REFERENCES Article(id),
+    FOREIGN KEY (article_id) REFERENCES Article(article_id),
     FOREIGN KEY (socialsecuritynumber) REFERENCES Author(socialsecuritynumber)
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE Article_comment
     created_at TIMESTAMP NOT NULL,
     article_id int NOT NULL,
 
-    FOREIGN KEY (article_id) REFERENCES Article(id)
+    FOREIGN KEY (article_id) REFERENCES Article(article_id)
 );
 
 CREATE TABLE Image
@@ -63,7 +63,7 @@ CREATE TABLE Image
     subcategory int NOT NULL,
     alt_text varchar(30) NOT NULL,
 
-    FOREIGN KEY (subcategory) REFERENCES Subcategory(id)
+    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id)
 );
 
 CREATE TABLE Article_image
@@ -73,6 +73,6 @@ CREATE TABLE Article_image
     text varchar(60),
     
     PRIMARY KEY (article_id, image_id),
-    FOREIGN KEY (article_id) REFERENCES Article(id),
-    FOREIGN KEY (image_id) REFERENCES Image(id)
+    FOREIGN KEY (article_id) REFERENCES Article(article_id),
+    FOREIGN KEY (image_id) REFERENCES Image(image_id)
 );

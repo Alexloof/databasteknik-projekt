@@ -10,6 +10,7 @@ const connectionString = process.env.DATABASE_URL || 'postgres://ag7949:6n9id9en
 const client = new pg.Client(connectionString);
 client.connect();
 const query = client.query(databaseSql, (err, res) => {
+    done();
     if (err) {
         console.log(err);
     }
