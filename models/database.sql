@@ -48,7 +48,7 @@ CREATE TABLE Article_author
 CREATE TABLE Article_comment
 (
     article_comment_id SERIAL PRIMARY KEY,
-    author varchar(40) NOT NULL,
+    commenter varchar(40) NOT NULL,
     comment varchar(160) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     article_id int NOT NULL,
