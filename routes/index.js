@@ -15,7 +15,7 @@ console.log("Server is up on 'localhost:3000'");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.json({"mongoDb": "Bäst", "SQL" : "Sämst"});
+    res.render('../public/index.html');
 });
 
 /*  
