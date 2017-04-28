@@ -70,7 +70,7 @@ CREATE TABLE Article_image
 (
     article_id int NOT NULL,
     image_id int NOT NULL,
-    article_image_text varchar(60),
+    text varchar(60),
     
     PRIMARY KEY (article_id, image_id),
     FOREIGN KEY (article_id) REFERENCES Article(id),
