@@ -3,37 +3,26 @@ import { Link, IndexLink} from 'react-router';
 
 const Nav = () => {
         return (
-            <div className="top-bar">
-                <div className="top-bar-left">
-                    <ul className="menu">
-                        <li className="menu-text" style={{fontWeight: 'bold'}}>
-                            MörtforsDagblad Admin Tool
-                        </li>
-                        <li>
-                            <IndexLink to="/" activeClassName="active-link">Startsida</IndexLink>
-                        </li>
-                        <li>
-                            <Link to="/categories" activeClassName="active-link">Kategorier</Link>
-                        </li>
-                        <li>
-                            <Link to="/authors" activeClassName="active-link">Författare</Link>
-                        </li>
-                        <li>
-                            <Link to="/images" activeClassName="active-link">Bilder</Link>
-                        </li>
-                        <li>
-                            <Link to="/articles" activeClassName="active-link">Artiklar</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className="top-bar-right">
-                    <ul className="menu">
-                        <li className="menu-text">
-                            Made by Alex, Simon & Mikael
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <nav>
+				<div className="nav-wrapper">
+					<a href="#" className="brand-logo">MörtforsDagblad Admin Tool</a>
+					<a href="#" data-activates="mobile-nav" className="button-collapse"><i className="material-icons">menu</i></a>
+					<ul className="right hide-on-med-and-down">
+						<li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Startsida</IndexLink></li>
+						<li><Link to="/categories" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Kategorier</Link></li>
+						<li><Link to="/authors" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Författare</Link></li>
+                        <li><Link to="/images" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Bilder</Link></li>
+                        <li><Link to="/articles" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Artiklar</Link></li>
+					</ul>
+					<ul className="side-nav" id="mobile-nav">
+						<li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Startsida</IndexLink></li>
+						<li><Link to="/categories" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Kategorier</Link></li>
+						<li><Link to="/authors" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Författare</Link></li>
+                        <li><Link to="/images" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Bilder</Link></li>
+                        <li><Link to="/articles" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Artiklar</Link></li>
+					</ul>
+				</div>
+			</nav>
         );
 };
 

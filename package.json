@@ -31,10 +31,13 @@
     "file-loader": "^0.11.1",
     "foundation-sites": "^6.2.0",
     "jquery": "^2.2.1",
+    "materialize-css": "^0.97.6",
+    "materialize-loader": "^1.1.2",
     "node-sass": "^4.5.0",
     "sass-loader": "^6.0.1",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
+    "url-loader": "^0.5.8",
     "webpack": "^1.12.13"
   },
   "bugs": {

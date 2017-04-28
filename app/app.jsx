@@ -9,9 +9,8 @@ import Authors from './components/Authors';
 import Categories from './components/Categories';
 import Images from './components/Images';
 
-// Load Foundation
-require('style!css!foundation-sites/dist/foundation.min.css');
-$(document).foundation();
+// Load Materialize-CSS
+require("materialize-loader");
 
 // CSS for the app
 require('style!css!sass!applicationStyles');

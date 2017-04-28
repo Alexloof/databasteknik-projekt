@@ -6,7 +6,7 @@ const path = require('path');
 const connectionString = 'postgres://ag7949:6n9id9en@pgserver.mah.se:5432/ag7949';
 
 
-// stöd funktioner (refactor bort sen)
+// stöd funktioner (refactor bort till annan fil sen kanske)
 
 const getNewTimestamp = () => new Date().toJSON().slice(0,10) + " " + new Date(new Date()).toString().split(' ')[4];
 
