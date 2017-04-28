@@ -2,13 +2,13 @@
 
 CREATE TABLE Category
 (
-    id SERIAL PRIMARY KEY, -- Ifall man vill ändra Category title efterhand;
+    category_id SERIAL PRIMARY KEY, -- Ifall man vill ändra Category title efterhand;
     name varchar(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE Subcategory
 (
-    id SERIAL PRIMARY KEY,
+    subcategory_id SERIAL PRIMARY KEY,
     name varchar(40) NOT NULL UNIQUE,
     parent_category int NOT NULL,
 
@@ -17,7 +17,7 @@ CREATE TABLE Subcategory
 
 CREATE TABLE Article
 (
-    id SERIAL PRIMARY KEY,
+    article_id SERIAL PRIMARY KEY,
     title varchar(40) NOT NULL,
     content TEXT NOT NULL,
     subcategory int NOT NULL,
@@ -47,8 +47,8 @@ CREATE TABLE Article_author
 
 CREATE TABLE Article_comment
 (
-    id SERIAL PRIMARY KEY,
-    author varchar(40) NOT NULL,
+    article_comment_id SERIAL PRIMARY KEY,
+    commenter varchar(40) NOT NULL,
     comment varchar(160) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     article_id int NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE Article_comment
 
 CREATE TABLE Image
 (
-    id SERIAL PRIMARY KEY,
+    image_id SERIAL PRIMARY KEY,
     image_ref varchar NOT NULL,
     subcategory int NOT NULL,
     alt_text varchar(30) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE Article_image
 (
     article_id int NOT NULL,
     image_id int NOT NULL,
-    article_image_text varchar(60),
+    text varchar(60),
     
     PRIMARY KEY (article_id, image_id),
     FOREIGN KEY (article_id) REFERENCES Article(id),
