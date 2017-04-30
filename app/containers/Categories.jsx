@@ -67,7 +67,7 @@ export default class Categories extends React.Component {
                     <div className="col s12 m12 l6">
                         <h4 className="center">Skapa nya Kategorier</h4>
                         <CreateCategoryForm/>
-                        <CreateSubCategoryForm/>
+                        <CreateSubCategoryForm categories={this.state.categories}/>
                     </div>
                     <div className="col s12 m12 l6">
                         <h4 className="center">Kategorier i Databasen</h4>
