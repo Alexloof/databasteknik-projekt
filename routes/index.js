@@ -15,7 +15,9 @@ console.log("Server is up on 'localhost:3000'");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('../public/index.html');
+    // res.type(text/html);
+    // res.status(200);
+    res.send('../public/index.html')
 });
 
 /*  

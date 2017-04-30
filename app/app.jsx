@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, Router, IndexRoute, browserHistory} from 'react-router';
+import {Route, Router, IndexRoute, hashHistory} from 'react-router';
+
 //Components
 import Main from './components/Main';
 import Start from './components/Start';
-import Articles from './components/Articles';
-import Authors from './components/Authors';
-import Categories from './components/Categories';
-import Images from './components/Images';
+import Articles from './containers/Articles';
+import Authors from './containers/Authors';
+import Categories from './containers/Categories';
+import Images from './containers/Images';
 
 // Load Materialize-CSS
 require("materialize-loader");
@@ -16,7 +17,7 @@ require("materialize-loader");
 require('style!css!sass!applicationStyles');
 
 ReactDOM.render(
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path="/" component={Main}>
             <IndexRoute component={Start}/>
             <Route path="articles" component={Articles}/>

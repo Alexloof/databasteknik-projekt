@@ -29,12 +29,9 @@ module.exports = {
     module: {
         loaders: [
             { 
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-                loader:"url?limit=10000&mimetype=application/font-woff" 
+                test: /\.(woff|woff2|eot|ttf|svg)$/,
+                loader:"url?limit=10000?publicPath=../&name=./assets/fonts.woff&mimetype=application/font-woff" 
             },
-            { 
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
-                loader: "file" },
             {
                 loader: 'babel-loader',
                 query: {
