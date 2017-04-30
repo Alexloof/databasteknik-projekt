@@ -16,8 +16,8 @@ export default class SubCategoriesList extends React.Component {
                     </li>
                     {this.props.subcategories.map((subcategory) => {
                         return (
-                            <li className="collection-item" key={subcategory._id}>
-                                <div>{subcategory.title}<a href="#!" onClick={(e) => this.props.onDeleteSubCategory(subcategory._id)} className="secondary-content">
+                            <li className="collection-item" key={subcategory.subcategory_id}>
+                                <div>{subcategory.name}<a href="#!" onClick={(e) => this.props.onDeleteSubCategory(subcategory.subcategory_id)} className="secondary-content">
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </div>

@@ -17,7 +17,6 @@ export default class CreateSubCategoryForm extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log(props);
         this.setState({
             categories: props.categories
         });
@@ -26,9 +25,11 @@ export default class CreateSubCategoryForm extends React.Component {
     onsubmit(e) {
         e.preventDefault();
         const subcategory_name = this.refs.subcategory_name.value.trim();
-        const parent_category_id = null // BLA BLA HÄR VAR JAG!!!! MÅste få in parentcat id på nått sätt
+        const parent_category_id = this.menu.value;
         if (subcategory_name.length < 1) {
             alert("Lite mer text tack");
+        } else if (parent_category_id === "Välj tillhörande Kategori") {
+            alert("Du måste välja den kategori din nya subkategori tillhör");
         } else {
             this.props.onCreateSubCategory(subcategory_name, parent_category_id);
             this.refs.subcategory_name.value = "";
@@ -47,8 +48,8 @@ export default class CreateSubCategoryForm extends React.Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
-                            <select>
-                                <option disabled>Välj tillhörande Kategori</option>
+                            <select ref={(input) => this.menu = input}>
+                                <option disabled selected>Välj tillhörande Kategori</option>
                                 {this.state.categories.map((category, index) => {
                                     return (
                                         <option key={category.category_id} value={category.category_id} >{category.name}</option>

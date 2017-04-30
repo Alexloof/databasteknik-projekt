@@ -15,7 +15,9 @@ export default class Categories extends React.Component {
         };
 
         this.getCategories = this.getCategories.bind(this);
+        this.getSubCategories = this.getSubCategories.bind(this);
         this.onCreateCategory = this.onCreateCategory.bind(this);
+        this.onCreateSubCategory = this.onCreateSubCategory.bind(this);
         this.onDeleteCategory = this.onDeleteCategory.bind(this);
         this.onDeleteSubCategory = this.onDeleteSubCategory.bind(this);
     }
@@ -31,7 +33,6 @@ export default class Categories extends React.Component {
     getCategories() {
         axios.get('/api/getcategories')
         .then((response) => {
-            console.log(response);
             this.setState({
                 categories: response.data.result.rows
             });
@@ -40,7 +41,6 @@ export default class Categories extends React.Component {
     getSubCategories() {
         axios.get('/api/getsubcategories')
         .then((response) => {
-            console.log(response);
             this.setState({
                 subcategories: response.data.result.rows
             });
@@ -52,7 +52,6 @@ export default class Categories extends React.Component {
             category: category_name
         })
         .then((response) => {
-            console.log(response);
             this.getCategories();
         })
         .catch((error) => {
@@ -65,7 +64,6 @@ export default class Categories extends React.Component {
 	        parent_category: parent_category_id
         })
         .then((response) => {
-            console.log(response);
             this.getSubCategories();
         })
         .catch((error) => {
@@ -74,13 +72,11 @@ export default class Categories extends React.Component {
     }
 
     onDeleteCategory(category_id) {
-        console.log(category_id);
         axios.post('/api/deletecategory', {
             category_id
         })
         .then((response) => {
-            console.log(response);
-            this.getCategories();
+            this.refreshCategories();
         })
         .catch((error) => {
             console.log('Something went wrong ', error);
@@ -98,7 +94,7 @@ export default class Categories extends React.Component {
                     <div className="col s12 m12 l6">
                         <h4 className="center">Skapa nya Kategorier</h4>
                         <CreateCategoryForm onCreateCategory={this.onCreateCategory}/>
-                        <CreateSubCategoryForm categories={this.state.categories}/>
+                        <CreateSubCategoryForm categories={this.state.categories} onCreateSubCategory={this.onCreateSubCategory}/>
                     </div>
                     <div className="col s12 m12 l6">
                         <h4 className="center">Kategorier i Databasen</h4>

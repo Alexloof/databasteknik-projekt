@@ -3,8 +3,8 @@ const router = express.Router();
 const pg = require('pg');
 const path = require('path');
 
-//const connectionString = 'postgres://ag7949:6n9id9en@pgserver.mah.se:5432/ag7949';
-const connectionString = 'postgres://postgres@localhost:5432/dbprojekt';
+const connectionString = 'postgres://ag7949:6n9id9en@pgserver.mah.se:5432/ag7949';
+//const connectionString = 'postgres://postgres@localhost:5432/dbprojekt';
 
 
 // stöd funktioner (refactor bort till annan fil sen kanske)
