@@ -62,9 +62,10 @@ export default class Categories extends React.Component {
     render() {
         return (
             <div>
-                <h2>Administrera Kategorier</h2>
+                <h2 className="center">Administrera Kategorier</h2>
                 <div className="row">
                     <div className="col s12 m12 l6">
+                        <h4 className="center">Skapa nya Kategorier</h4>
                         <CreateCategoryForm/>
                         <CreateSubCategoryForm/>
                     </div>

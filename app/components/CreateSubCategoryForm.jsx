@@ -11,7 +11,6 @@ export default class CreateSubCategoryForm extends React.Component {
             <div>
                 <form action="">
                     <div className="row">
-                        <h5>Skapa Ny Subkategori</h5>
                         <div className="input-field col s12">
                             <input id="name" type="text" className="validate"/>
                             <label htmlFor="name">Ny Subkategori</label>
