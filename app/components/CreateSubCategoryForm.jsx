@@ -4,8 +4,7 @@ export default class CreateSubCategoryForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            categories: [],
-            selectvalue: "Välj tillhörande kategori"
+            categories: []
         }
 
     }
@@ -36,11 +35,6 @@ export default class CreateSubCategoryForm extends React.Component {
         }   
     }
 
-    handleChange(e) {
-        this.setState({selectvalue: e.target.value});
-        console.log(this.state.selectvalue);
-    }
-
     render() {
         return (
             <div>
@@ -53,7 +47,7 @@ export default class CreateSubCategoryForm extends React.Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
-                            <select value={this.state.selectvalue} onChange={this.handleChange.bind(this)}>
+                            <select>
                                 <option disabled>Välj tillhörande Kategori</option>
                                 {this.state.categories.map((category, index) => {
                                     return (
