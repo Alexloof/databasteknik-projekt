@@ -1,7 +1,15 @@
 import React from 'react'; 
 import { Link, IndexLink} from 'react-router';
 
-const Nav = () => {
+export default class Nav extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount() {
+        $(".button-collapse").sideNav();
+    }
+
+    render() {
         return (
             <nav>
 				<div className="nav-wrapper">
@@ -24,6 +32,6 @@ const Nav = () => {
 				</div>
 			</nav>
         );
+    }
+        
 };
-
-export default Nav;

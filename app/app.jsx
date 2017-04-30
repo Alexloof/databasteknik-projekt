@@ -12,7 +12,7 @@ import Images from './containers/Images';
 
 // Load Materialize-CSS
 require("materialize-loader");
-
+require('materialize-css/dist/js/materialize.min.js');
 // CSS for the app
 require('style!css!sass!applicationStyles');
 

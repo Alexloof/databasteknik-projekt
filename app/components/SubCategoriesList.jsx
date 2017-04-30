@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-export default class CategoriesList extends React.Component {
+export default class SubCategoriesList extends React.Component {
     constructor(props) {
         super(props)
         
@@ -12,12 +12,12 @@ export default class CategoriesList extends React.Component {
             <div>
                 <ul className="collection with-header">
                     <li className="collection-header">
-                        <h4>Kategorier</h4>
+                        <h4>Subkategorier</h4>
                     </li>
-                    {this.props.categories.map((category) => {
+                    {this.props.subcategories.map((subcategory) => {
                         return (
-                            <li className="collection-item" key={category._id}>
-                                <div>{category.title}<a href="#!" onClick={(e) => this.props.onDeleteCategory(category._id)} className="secondary-content">
+                            <li className="collection-item" key={subcategory._id}>
+                                <div>{subcategory.title}<a href="#!" onClick={(e) => this.props.onDeleteSubCategory(subcategory._id)} className="secondary-content">
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </div>
