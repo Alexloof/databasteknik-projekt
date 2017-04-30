@@ -16,8 +16,8 @@ export default class CategoriesList extends React.Component {
                     </li>
                     {this.props.categories.map((category) => {
                         return (
-                            <li className="collection-item" key={category._id}>
-                                <div>{category.title}<a href="#!" onClick={(e) => this.props.onDeleteCategory(category._id)} className="secondary-content">
+                            <li className="collection-item" key={category.category_id}>
+                                <div>{category.name}<a href="#!" onClick={(e) => this.props.onDeleteCategory(category.category_id)} className="secondary-content">
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </div>

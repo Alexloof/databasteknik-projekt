@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import CreateCategoryForm from '../components/CreateCategoryForm';
 import CreateSubCategoryForm from '../components/CreateSubCategoryForm';
@@ -9,51 +10,81 @@ export default class Categories extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            categories: [
-                {
-                    _id: 1,
-                    title: 'En Test Kategori',
-                },
-                {
-                    _id: 2,
-                    title: 'Ännu en Test Kategori',
-                },
-                {
-                    _id: 3,
-                    title: 'En tredje Test Kategori',
-                }
-            ],
-            subcategories: [
-                {
-                    _id: 7,
-                    title: 'En Test SUB Kategori',
-                },
-                {
-                    _id: 8,
-                    title: 'Ännu en Test SUB Kategori',
-                },
-                {
-                    _id: 9,
-                    title: 'En tredje Test SUB Kategori',
-                }
-            ]
+            categories: [],
+            subcategories: []
         };
 
+        this.getCategories = this.getCategories.bind(this);
+        this.onCreateCategory = this.onCreateCategory.bind(this);
         this.onDeleteCategory = this.onDeleteCategory.bind(this);
+        this.onDeleteSubCategory = this.onDeleteSubCategory.bind(this);
     }
 
-    componentDidMount() { // Skapa en route för GET som returnerar alla kategorier
-        // axios.get('URLFÖRROUTEN').then((res) => {
-        //     trolla in resultatet i state eller nått
-        //     console.log(res);
-        //     this.setState({
-        //         categories: 'test'
-        //     });
-        // });
+    componentDidMount() {
+        this.refreshCategories();
+    }
+
+    refreshCategories() {
+        this.getCategories();
+        this.getSubCategories();
+    }
+    getCategories() {
+        axios.get('/api/getcategories')
+        .then((response) => {
+            console.log(response);
+            this.setState({
+                categories: response.data.result.rows
+            });
+        });
+    }
+    getSubCategories() {
+        axios.get('/api/getsubcategories')
+        .then((response) => {
+            console.log(response);
+            this.setState({
+                subcategories: response.data.result.rows
+            });
+        });
+    }
+
+    onCreateCategory(category_name) {
+        axios.post('/api/createcategory', {
+            category: category_name
+        })
+        .then((response) => {
+            console.log(response);
+            this.getCategories();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
+    }
+    onCreateSubCategory(subcategory_name, parent_category_id) {
+        axios.post('/api/createsubcategory', {
+            subcategory: subcategory_name,
+	        parent_category: parent_category_id
+        })
+        .then((response) => {
+            console.log(response);
+            this.getSubCategories();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
     }
 
     onDeleteCategory(category_id) {
-        alert(category_id + " - Koppla till Axios delete för kategorier");
+        console.log(category_id);
+        axios.post('/api/deletecategory', {
+            category_id
+        })
+        .then((response) => {
+            console.log(response);
+            this.getCategories();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
     }
     onDeleteSubCategory(subcategory_id) {
         alert(subcategory_id + " - Koppla till Axios delete för subkategorier");
@@ -66,7 +97,7 @@ export default class Categories extends React.Component {
                 <div className="row">
                     <div className="col s12 m12 l6">
                         <h4 className="center">Skapa nya Kategorier</h4>
-                        <CreateCategoryForm/>
+                        <CreateCategoryForm onCreateCategory={this.onCreateCategory}/>
                         <CreateSubCategoryForm categories={this.state.categories}/>
                     </div>
                     <div className="col s12 m12 l6">

@@ -12,7 +12,7 @@ CREATE TABLE Subcategory
     name varchar(40) NOT NULL UNIQUE,
     parent_category int NOT NULL,
 
-    FOREIGN KEY (parent_category) REFERENCES Category(category_id)
+    FOREIGN KEY (parent_category) REFERENCES Category(category_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Article
@@ -23,7 +23,7 @@ CREATE TABLE Article
     subcategory int NOT NULL,
     created_at TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id)
+    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Author
@@ -41,8 +41,8 @@ CREATE TABLE Article_author
 
     PRIMARY KEY (article_id, socialsecuritynumber),
 
-    FOREIGN KEY (article_id) REFERENCES Article(article_id),
-    FOREIGN KEY (socialsecuritynumber) REFERENCES Author(socialsecuritynumber)
+    FOREIGN KEY (article_id) REFERENCES Article(article_id) ON DELETE CASCADE,
+    FOREIGN KEY (socialsecuritynumber) REFERENCES Author(socialsecuritynumber) ON DELETE CASCADE
 );
 
 CREATE TABLE Article_comment
@@ -53,7 +53,7 @@ CREATE TABLE Article_comment
     created_at TIMESTAMP NOT NULL,
     article_id int NOT NULL,
 
-    FOREIGN KEY (article_id) REFERENCES Article(article_id)
+    FOREIGN KEY (article_id) REFERENCES Article(article_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Image
@@ -63,7 +63,7 @@ CREATE TABLE Image
     subcategory int NOT NULL,
     alt_text varchar(30) NOT NULL,
 
-    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id)
+    FOREIGN KEY (subcategory) REFERENCES Subcategory(subcategory_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Article_image
@@ -73,6 +73,6 @@ CREATE TABLE Article_image
     text varchar(60),
     
     PRIMARY KEY (article_id, image_id),
-    FOREIGN KEY (article_id) REFERENCES Article(article_id),
-    FOREIGN KEY (image_id) REFERENCES Image(image_id)
+    FOREIGN KEY (article_id) REFERENCES Article(article_id) ON DELETE CASCADE,
+    FOREIGN KEY (image_id) REFERENCES Image(image_id) ON DELETE CASCADE
 );
