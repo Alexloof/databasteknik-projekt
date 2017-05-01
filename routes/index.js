@@ -16,8 +16,6 @@ console.log("Server is up on 'localhost:3000'");
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-    // res.type(text/html);
-    // res.status(200);
     res.send('../public/index.html')
 });
 
@@ -31,7 +29,6 @@ router.get('/api/getcategories', (req, res, next) => {
             return res.status(500).json({success: false, data: err});
         }
 
-        // hämta kategorier
         client.query('SELECT * FROM Category ORDER BY name ASC', (err, result) => {
 
             if (err) {
@@ -54,11 +51,33 @@ router.get('/api/getsubcategories', (req, res, next) => {
             return res.status(500).json({success: false, data: err});
         }
 
-        // hämta kategorier
         client.query('SELECT * FROM Subcategory ORDER BY name ASC', (err, result) => {
 
             if (err) {
                 done();
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
+// GET AUTHORS
+router.get('/api/getauthors', (req, res, next) => {
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('SELECT * FROM Author ORDER BY firstname ASC', (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
                 return res.status(500).json({success: false, data: err});
             }
 
@@ -82,7 +101,6 @@ router.post('/api/deletecategory', (req, res, next) => {
             return res.status(500).json({success: false, data: err});
         }
 
-        // CASCADE DELETE angiven kategori
         client.query('DELETE FROM Category WHERE category_id = ($1)', [category_id], (err, result) => {
 
             if (err) {
@@ -106,7 +124,6 @@ router.post('/api/deletesubcategory', (req, res, next) => {
             return res.status(500).json({success: false, data: err});
         }
 
-        // CASCADE DELETE angiven kategori
         client.query('DELETE FROM Subcategory WHERE subcategory_id = ($1)', [subcategory_id], (err, result) => {
 
             if (err) {
@@ -118,7 +135,29 @@ router.post('/api/deletesubcategory', (req, res, next) => {
             return res.json({'message': 'success!'});
         })
     })
+});
 
+router.post('/api/deleteauthor', (req, res, next) => {
+    const socialsecuritynumber = req.body.socialsecuritynumber;
+    pg.connect(connectionString, (err, client, done) => {
+        // Error handler
+        if (err) {
+            done();
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('DELETE FROM Author WHERE socialsecuritynumber = ($1)', [socialsecuritynumber], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err}); 
+            }
+            done();
+            return res.json({'message': 'success!'});
+        })
+    })
 });
 
 // POST ROUTES BELOW! :)
@@ -131,7 +170,6 @@ så man kan inte skapa dubbletter
 }
 */ 
 router.post('/api/createcategory', (req, res, next) => {
-    const results = [];
     const data = req.body;
     pg.connect(connectionString, (err, client, done) => {
         // error handler
@@ -163,9 +201,7 @@ skicka in namn på ny subkat samt category_id för huvudkategorin
 } 
 */
 router.post('/api/createsubcategory', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
@@ -199,9 +235,7 @@ samt subcategory_id från existernade subkategori
 } 
 */
 router.post('/api/createarticle', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
@@ -239,15 +273,12 @@ valfritt att skicka in comment: för ny Author
 } 
 */
 router.post('/api/createauthor', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
             done();
             console.log(err);
-            console.log("error from pg.connect connectionstring");
             return res.status(500).json({success: false, data: err});
         }
         
@@ -257,7 +288,6 @@ router.post('/api/createauthor', (req, res, next) => {
 
             if(err) {
                 done();
-                console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
             done();
@@ -275,15 +305,12 @@ skicka in socialsecuritynumber och article_id
 } 
 */
 router.post('/api/createarticleauthor', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
             done();
             console.log(err);
-            console.log("error from pg.connect connectionstring");
             return res.status(500).json({success: false, data: err});
         }
         
@@ -293,7 +320,6 @@ router.post('/api/createarticleauthor', (req, res, next) => {
 
             if(err) {
                 done();
-                console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
             done();
@@ -312,15 +338,12 @@ skicka in "commenter", comment, created_at, article_id
 } 
 */
 router.post('/api/createarticlecomment', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
             done();
             console.log(err);
-            console.log("error from pg.connect connectionstring");
             return res.status(500).json({success: false, data: err});
         }
 
@@ -333,7 +356,6 @@ router.post('/api/createarticlecomment', (req, res, next) => {
 
             if(err) {
                 done();
-                console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
             done();
@@ -352,15 +374,12 @@ skicka in image_ref, subcategory (id), alt_text
 } 
 */
 router.post('/api/createimage', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
             done();
             console.log(err);
-            console.log("error from pg.connect connectionstring");
             return res.status(500).json({success: false, data: err});
         }
         // sätta in Category i postgres
@@ -369,7 +388,6 @@ router.post('/api/createimage', (req, res, next) => {
 
             if(err) {
                 done();
-                console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
             done();
@@ -388,15 +406,12 @@ skicka in article_id, image_id, text
 } 
 */
 router.post('/api/createarticleimage', (req, res, next) => {
-    const results = [];
     const data = req.body;
-    console.log('before pg connect: ', data);
     pg.connect(connectionString, (err, client, done) => {
         // error handler
         if (err) {
             done();
             console.log(err);
-            console.log("error from pg.connect connectionstring");
             return res.status(500).json({success: false, data: err});
         }
         // sätta in Category i postgres
@@ -405,7 +420,6 @@ router.post('/api/createarticleimage', (req, res, next) => {
 
             if(err) {
                 done();
-                console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
             done();
