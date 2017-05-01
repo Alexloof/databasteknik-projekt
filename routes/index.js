@@ -94,6 +94,30 @@ router.post('/api/deletecategory', (req, res, next) => {
             return res.json({'message': 'success!'});
         })
     })
+});
+
+router.post('/api/deletesubcategory', (req, res, next) => {
+    const subcategory_id = req.body.subcategory_id;
+    pg.connect(connectionString, (err, client, done) => {
+        // Error handler
+        if (err) {
+            done();
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        // CASCADE DELETE angiven kategori
+        client.query('DELETE FROM Subcategory WHERE subcategory_id = ($1)', [subcategory_id], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err}); 
+            }
+            done();
+            return res.json({'message': 'success!'});
+        })
+    })
 
 });
 

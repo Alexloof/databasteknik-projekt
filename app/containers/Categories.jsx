@@ -82,7 +82,15 @@ export default class Categories extends React.Component {
         });
     }
     onDeleteSubCategory(subcategory_id) {
-        alert(subcategory_id + " - Koppla till Axios delete för subkategorier");
+        axios.post('/api/deletesubcategory', {
+            subcategory_id
+        })
+        .then((response) => {
+            this.refreshCategories();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
     }
 
     render() {
