@@ -1,5 +1,5 @@
 .collection-item {
-    padding: 5px 80px!important;
+    padding: 5px 90px!important;
     &:hover {
         background: #f3f3f3!important;
     }
@@ -16,8 +16,21 @@
     }
 .delete {
     &:hover {
-        transition: 0.2s ease-in-out;
+        transition: 0.1s ease-in-out;
         transform: scale(1.2);
         color: #ee6e73;
+    }
+}
+
+.create-btn {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    width: 90%;
+}
+nav {
+    .active {
+        font-weight: bolder;
+        background-color: rgba(69, 69, 69, 0.1);
     }
 }

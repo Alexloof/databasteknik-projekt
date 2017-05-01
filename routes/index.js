@@ -32,7 +32,7 @@ router.get('/api/getcategories', (req, res, next) => {
         }
 
         // hämta kategorier
-        client.query('SELECT * FROM Category', (err, result) => {
+        client.query('SELECT * FROM Category ORDER BY name ASC', (err, result) => {
 
             if (err) {
                 done();
@@ -55,7 +55,7 @@ router.get('/api/getsubcategories', (req, res, next) => {
         }
 
         // hämta kategorier
-        client.query('SELECT * FROM Subcategory', (err, result) => {
+        client.query('SELECT * FROM Subcategory ORDER BY name ASC', (err, result) => {
 
             if (err) {
                 done();

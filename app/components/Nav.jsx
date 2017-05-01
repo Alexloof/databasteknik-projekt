@@ -13,7 +13,7 @@ export default class Nav extends React.Component {
         return (
             <nav>
 				<div className="nav-wrapper">
-					<a href="#" className="brand-logo">MörtforsDagblad Admin Tool</a>
+					<a href="#" className="brand-logo">Mörtfors DB</a>
 					<a href="#" data-activates="mobile-nav" className="button-collapse"><i className="material-icons">menu</i></a>
 					<ul className="right hide-on-med-and-down">
 						<li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Startsida</IndexLink></li>

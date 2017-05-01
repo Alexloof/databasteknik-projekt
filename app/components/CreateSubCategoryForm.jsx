@@ -38,7 +38,7 @@ export default class CreateSubCategoryForm extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="card">
                 <form onSubmit={this.onsubmit.bind(this)}>
                     <div className="row">
                         <div className="input-field col s12">
@@ -59,7 +59,7 @@ export default class CreateSubCategoryForm extends React.Component {
                             <label>Kategori</label>
                         </div>
                     </div>
-                    <button className="waves-effect waves-light btn">Spara</button>
+                    <button className="waves-effect waves-light btn create-btn">Spara</button>
                 </form>
             </div>
         );
