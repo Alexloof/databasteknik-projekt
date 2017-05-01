@@ -1,0 +1,16 @@
+.collection-item {
+    padding: 5px 80px!important;
+    &:hover {
+        background: #f3f3f3!important;
+    }
+}
+
+.collapsible-header {
+    &:hover {
+        background: #2bbbad!important;
+    }
+    
+}
+.collapsible-header.active {
+        background: #dedfdf!important;
+    }

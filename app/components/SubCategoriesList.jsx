@@ -10,14 +10,11 @@ export default class SubCategoriesList extends React.Component {
     render() {
         return (
             <div>
-                <ul className="collection with-header">
-                    <li className="collection-header">
-                        <h4>Subkategorier</h4>
-                    </li>
+                <ul className="collection">
                     {this.props.subcategories.map((subcategory) => {
                         return (
                             <li className="collection-item" key={subcategory.subcategory_id}>
-                                <div>{subcategory.name}<a href="#!" onClick={(e) => this.props.onDeleteSubCategory(subcategory.subcategory_id)} className="secondary-content">
+                                <div><i className="tiny material-icons">label</i>{subcategory.name}<a href="#!" onClick={(e) => this.props.onDeleteSubCategory(subcategory.subcategory_id)} className="secondary-content">
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </div>

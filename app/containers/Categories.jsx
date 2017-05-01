@@ -4,7 +4,6 @@ import axios from 'axios';
 import CreateCategoryForm from '../components/CreateCategoryForm';
 import CreateSubCategoryForm from '../components/CreateSubCategoryForm';
 import CategoriesList from '../components/CategoriesList';
-import SubCategoriesList from '../components/SubCategoriesList';
 
 export default class Categories extends React.Component {
     constructor(props) {
@@ -98,8 +97,7 @@ export default class Categories extends React.Component {
                     </div>
                     <div className="col s12 m12 l6">
                         <h4 className="center">Kategorier i Databasen</h4>
-                        <CategoriesList categories={this.state.categories} onDeleteCategory={this.onDeleteCategory}/>
-                        <SubCategoriesList subcategories={this.state.subcategories} onDeleteSubCategory={this.onDeleteSubCategory}/>
+                        <CategoriesList categories={this.state.categories} onDeleteCategory={this.onDeleteCategory} subcategories={this.state.subcategories} onDeleteSubCategory={this.onDeleteSubCategory}/>
                     </div>
                 </div>  
             </div>
