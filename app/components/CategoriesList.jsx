@@ -22,11 +22,11 @@ export default class CategoriesList extends React.Component {
                             
                             <li key={category.category_id}>
                                 <div className="collapsible-header"><i className="material-icons">label_outline</i>{category.name}<a href="#!" onClick={(e) => this.props.onDeleteCategory(category.category_id)} className="secondary-content">
-                                        <i className="material-icons">delete</i>
+                                        <i className="material-icons delete">delete</i>
                                     </a>
                                 </div>
                                 <div className="collapsible-body">
-                                    <SubCategoriesList subcategories={this.props.subcategories} onDeleteSubCategory={this.props.onDeleteSubCategory}/>
+                                    <SubCategoriesList parentcategory={category.category_id} subcategories={this.props.subcategories} onDeleteSubCategory={this.props.onDeleteSubCategory}/>
                                 </div>
                             </li>
                         );
