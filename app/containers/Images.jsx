@@ -19,6 +19,7 @@ export default class Images extends React.Component {
 
     componentDidMount() {
         this.getSubCategories();
+        this.getImages();
     }
     getSubCategories() {
         axios.get('/api/getsubcategories')
@@ -37,7 +38,7 @@ export default class Images extends React.Component {
         });
     }
 
-    onCreateImage() {
+    onCreateImage(altText, bildUrl, subCategoryID) {
         axios.post('/api/createimage', {
             alt_text: altText, 
             image_ref: bildUrl, 
@@ -51,10 +52,9 @@ export default class Images extends React.Component {
         });
     }
 
-    onDeleteImage() {
-        alert("Ta bort");
+    onDeleteImage(image_id) {
         axios.post('/api/deleteimage', {
-            socialsecuritynumber
+            image_id
         })
         .then((response) => {
             this.getImages();

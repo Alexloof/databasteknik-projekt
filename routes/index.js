@@ -110,6 +110,28 @@ router.get('/api/getimages', (req, res, next) => {
     })
 });
 
+router.get('/api/getarticles', (req, res, next) => {
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('SELECT * FROM Article ORDER BY created_at ASC', (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
 
 
 
@@ -206,6 +228,28 @@ router.post('/api/deleteimage', (req, res, next) => {
     })
 });
 
+router.post('/api/deletearticle', (req, res, next) => {
+    const article_id = req.body.article_id;
+    pg.connect(connectionString, (err, client, done) => {
+        // Error handler
+        if (err) {
+            done();
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('DELETE FROM Article WHERE article_id = ($1)', [article_id], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err}); 
+            }
+            done();
+            return res.json({'message': 'success!'});
+        })
+    })
+});
 
 // POST ROUTES BELOW! :)
 /*  
