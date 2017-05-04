@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class CreateAuthorForm extends React.Component {
+export default class CreateImageForm extends React.Component {
     constructor(props) {
         super(props)
 
@@ -8,24 +8,7 @@ export default class CreateAuthorForm extends React.Component {
 
     onsubmit(e) {
         e.preventDefault();
-        const socialsecuritynumber = this.refs.socialsecuritynumber.value.trim();
-        const firstname = this.refs.firstname.value.trim();
-        const surname = this.refs.surname.value.trim();
-        const comment = this.refs.comment.value.trim();
-
-        if (socialsecuritynumber.length !== 12) {
-            alert("Personnumret ska vara 12 siffror utan extra tecken");
-        } else if (firstname.length < 1) {
-            alert("Ange ett förnamn");
-        } else if (surname.length < 1) {
-            alert("Ange ett efternamn");
-        } else {
-            this.props.onCreateAuthor(socialsecuritynumber, firstname, surname, comment);
-            this.refs.socialsecuritynumber.value = "";
-            this.refs.firstname.value = "";
-            this.refs.surname.value = "";
-            this.refs.comment.value = "";
-        }   
+        
     }
 
     render() {
