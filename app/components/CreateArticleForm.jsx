@@ -41,6 +41,9 @@ export default class CreateAuthorForm extends React.Component {
         const articleTitle = this.refs.titel.value.trim();
         const articleContent = this.refs.content.value.trim();
         const subCategoryID = this.menuThree.value;
+        const authors = $("#authors").val();
+        const image_id = this.menuFour.value;
+        const imageText = this.refs.bildtext.value.trim();
 
         if (articleTitle.length < 1) {
             alert("Lite längre titel på artikeln tack!");
@@ -49,9 +52,10 @@ export default class CreateAuthorForm extends React.Component {
         } else if (subCategoryID.length < 1) {
             alert("Välj en Underkategori tack!");
         } else {
-            this.props.onCreateArticle(articleTitle, articleContent, subCategoryID);
+            this.props.onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_id, imageText);
             this.refs.titel.value = "";
             this.refs.content.value = "";
+            this.refs.bildtext.value = "";
         }
     }
     render() {
@@ -60,8 +64,8 @@ export default class CreateAuthorForm extends React.Component {
                 <form onSubmit={this.onsubmit.bind(this)}>
                     <div className="row">
                         <div className="input-field col s12">
-                            <select ref={(input) => this.menu = input}>
-                                <option disabled selected>Välj Författare till Artikeln</option>
+                            <select multiple ref={(input) => this.menu = input} id="authors">
+                                <option disabled >Välj Författare till Artikeln</option>
                                 {this.state.authors.map((author, index) => {
                                     return (
                                         <option key={index} value={author.socialsecuritynumber} >{author.firstname} {author.surname}</option>

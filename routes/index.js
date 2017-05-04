@@ -346,8 +346,17 @@ router.post('/api/createarticle', (req, res, next) => {
                 console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
-            done();
-            return res.json({'message': 'success!'});
+        });
+        client.query('SELECT article_id from Article WHERE title = $1 AND content = $2 AND subcategory = $3 AND created_at = $4',
+            [data.title, data.content, data.subcategory, newTimestamp], function(err, result) {
+            
+            if(err) {
+                done();
+                console.log("error from if err after client.query");
+                return  res.status(500).json({success: false, data: err});
+            }
+            done()
+            return res.json({result});       
         });
     });
 });

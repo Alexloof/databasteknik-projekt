@@ -23,6 +23,8 @@ export default class ImagesList extends React.Component {
                                 </div>
                                 <div className="collapsible-body">
                                     {article.content}
+                                    <br/>
+                                    Underkategori-ID: {article.subcategory}
                                 </div>
                             </li>
                         );

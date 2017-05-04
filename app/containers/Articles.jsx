@@ -46,41 +46,43 @@ export default class Articles extends React.Component {
         });
     }
 
-    onCreateArticle(articleTitle, articleContent, subCategoryID) {
+    onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_id, imageText) {
         axios.post('/api/createarticle', {
             title: articleTitle,
             content: articleContent,
             subcategory: subCategoryID
         })
         .then((response) => {
-            this.getArticles();
+            const article_id = response.data.result.rows[0].article_id
+            authors.map((author, index) => {
+                axios.post('/api/createarticleauthor', {
+                    article_id: article_id,
+                    socialsecuritynumber: author,
+                })
+                .catch((error) => {
+                    console.log('Something went wrong ', error);
+                });
+            });
+
+            axios.post('/api/createarticleimage', {
+                article_id: article_id,
+                image_id: image_id,
+                text: imageText
+            })
+            .then((response) => {
+                this.getArticles();
+            })
+            .catch((error) => {
+                console.log('Something went wrong ', error);
+            });
+            
         })
         .catch((error) => {
             console.log('Something went wrong ', error);
         });
 
-        /*axios.post('/api/createarticleimage', {
-            article_id: "",
-            socialsecuritynumber: "",
-        })
-        .then((response) => {
-            this.getArticles();
-        })
-        .catch((error) => {
-            console.log('Something went wrong ', error);
-        });
-
-        axios.post('/api/createarticleimage', {
-            article_id: "",
-            image_id: "",
-            text: ""
-        })
-        .then((response) => {
-            this.getArticles();
-        })
-        .catch((error) => {
-            console.log('Something went wrong ', error);
-        });*/
+    
+        
     }
 
     onDeleteArticle(article_id) {
