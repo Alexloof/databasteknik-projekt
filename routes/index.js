@@ -87,6 +87,29 @@ router.get('/api/getauthors', (req, res, next) => {
     })
 });
 
+// GET IMAGES
+router.get('/api/getimages', (req, res, next) => {
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('SELECT * FROM Image ORDER BY subcategory ASC', (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
 
 
 
@@ -159,6 +182,30 @@ router.post('/api/deleteauthor', (req, res, next) => {
         })
     })
 });
+
+router.post('/api/deleteimage', (req, res, next) => {
+    const imageId = req.body.image_id;
+    pg.connect(connectionString, (err, client, done) => {
+        // Error handler
+        if (err) {
+            done();
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('DELETE FROM Image WHERE image_id = ($1)', [imageId], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err}); 
+            }
+            done();
+            return res.json({'message': 'success!'});
+        })
+    })
+});
+
 
 // POST ROUTES BELOW! :)
 /*  
