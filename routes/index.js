@@ -110,6 +110,28 @@ router.get('/api/getimages', (req, res, next) => {
     })
 });
 
+router.get('/api/getarticles', (req, res, next) => {
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('SELECT * FROM Article ORDER BY created_at ASC', (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
 
 
 
@@ -206,6 +228,28 @@ router.post('/api/deleteimage', (req, res, next) => {
     })
 });
 
+router.post('/api/deletearticle', (req, res, next) => {
+    const article_id = req.body.article_id;
+    pg.connect(connectionString, (err, client, done) => {
+        // Error handler
+        if (err) {
+            done();
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query('DELETE FROM Article WHERE article_id = ($1)', [article_id], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err}); 
+            }
+            done();
+            return res.json({'message': 'success!'});
+        })
+    })
+});
 
 // POST ROUTES BELOW! :)
 /*  
@@ -302,8 +346,17 @@ router.post('/api/createarticle', (req, res, next) => {
                 console.log("error from if err after client.query");
                 return  res.status(500).json({success: false, data: err});
             }
-            done();
-            return res.json({'message': 'success!'});
+        });
+        client.query('SELECT article_id from Article WHERE title = $1 AND content = $2 AND subcategory = $3 AND created_at = $4',
+            [data.title, data.content, data.subcategory, newTimestamp], function(err, result) {
+            
+            if(err) {
+                done();
+                console.log("error from if err after client.query");
+                return  res.status(500).json({success: false, data: err});
+            }
+            done()
+            return res.json({result});       
         });
     });
 });

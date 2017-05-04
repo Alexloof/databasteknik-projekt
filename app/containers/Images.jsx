@@ -8,49 +8,60 @@ export default class Images extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            images: []
+            images: [],
+            subCategories: []
         }
+        this.getSubCategories = this.getSubCategories.bind(this);
+        this.getImages = this.getImages.bind(this);
+        this.onCreateImage = this.onCreateImage.bind(this);
+        this.onDeleteImage = this.onDeleteImage.bind(this);
     }
 
     componentDidMount() {
-        //this.getAuthors();
+        this.getSubCategories();
+        this.getImages();
     }
-
+    getSubCategories() {
+        axios.get('/api/getsubcategories')
+        .then((response) => {
+            this.setState({
+                subCategories: response.data.result.rows
+            });
+        });
+    }
     getImages() {
-        // axios.get('/api/getauthors')
-        // .then((response) => {
-        //     this.setState({
-        //         authors: response.data.result.rows
-        //     });
-        // });
+        axios.get('/api/getimages')
+        .then((response) => {
+            this.setState({
+                images: response.data.result.rows
+            });
+        });
     }
 
-    onCreateImage() {
-        // axios.post('/api/createauthor', {
-        //     socialsecuritynumber,
-        //     firstname,
-        //     surname,
-        //     comment
-        // })
-        // .then((response) => {
-        //     this.getAuthors();
-        // })
-        // .catch((error) => {
-        //     console.log('Something went wrong ', error);
-        // });
+    onCreateImage(altText, bildUrl, subCategoryID) {
+        axios.post('/api/createimage', {
+            alt_text: altText, 
+            image_ref: bildUrl, 
+            subcategory: subCategoryID
+        })
+        .then((response) => {
+            this.getImages();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
     }
 
-    onDeleteImage() {
-        alert("Ta bort");
-        // axios.post('/api/deleteauthor', {
-        //     socialsecuritynumber
-        // })
-        // .then((response) => {
-        //     this.getAuthors();
-        // })
-        // .catch((error) => {
-        //     console.log('Something went wrong ', error);
-        // });
+    onDeleteImage(image_id) {
+        axios.post('/api/deleteimage', {
+            image_id
+        })
+        .then((response) => {
+            this.getImages();
+        })
+        .catch((error) => {
+            console.log('Something went wrong ', error);
+        });
     }
 
     render() {
@@ -60,11 +71,11 @@ export default class Images extends React.Component {
                 <div className="row">
                     <div className="col s12 m12 l4">
                         <h4 className="center">Lägg in ny Bild</h4>
-                        <CreateImageForm onCreateImage={this.onCreateAuthor}/>
+                        <CreateImageForm onCreateImage={this.onCreateImage} subCategories={this.state.subCategories}/>
                     </div>
                     <div className="col s12 m12 l8">
                         <h4 className="center">Bilder i Databasen</h4>
-                        <ImagesList images={this.state.images} onDeleteImage={this.onDeleteAuthor}/>
+                        <ImagesList images={this.state.images} onDeleteImage={this.onDeleteImage}/>
                     </div>
                 </div>  
             </div>

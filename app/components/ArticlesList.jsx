@@ -13,16 +13,18 @@ export default class ImagesList extends React.Component {
         return (
             <div>
                 <ul className="collapsible" data-collapsible="accordion">
-                    {this.props.images.map((image) => {
+                    {this.props.articles.map((article) => {
                         return (
                             
-                            <li key={image.image_id}>
-                                <div className="collapsible-header"><i className="material-icons">label_outline</i>{image.alt_text}<a href="#!" onClick={(e) => this.props.onDeleteImage(image.image_id)} className="secondary-content">
+                            <li key={article.article_id}>
+                                <div className="collapsible-header"><i className="material-icons">label_outline</i>{article.title}<a href="#!" onClick={(e) => this.props.onDeleteArticle(article.article_id)} className="secondary-content">
                                         <i className="material-icons delete">delete</i>
                                     </a>
                                 </div>
                                 <div className="collapsible-body">
-                                    <img src={image.image_ref}></img>
+                                    {article.content}
+                                    <br/>
+                                    Underkategori-ID: {article.subcategory}
                                 </div>
                             </li>
                         );
