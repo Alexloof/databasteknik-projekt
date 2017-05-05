@@ -132,6 +132,32 @@ router.get('/api/getarticles', (req, res, next) => {
     })
 });
 
+router.get('/api/getcategorieswithcount', (req, res, next) => {
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query(`SELECT Category.category_id, Category.name, COUNT(Article.article_id) 
+                        FROM Category 
+                        JOIN Subcategory ON Category.category_id = Subcategory.parent_category
+                        JOIN Article ON Article.subcategory = Subcategory.subcategory_id
+                        GROUP BY Category.category_id
+                        ORDER BY Category.name ASC`, (err, result) => {
+
+            if (err) {
+                done();
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
 router.get('/api/getFullArticles', (req, res, next) => {
     pg.connect(connectionString, (err, client, done) => {
         // error handler
