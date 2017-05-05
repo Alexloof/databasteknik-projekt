@@ -30,10 +30,11 @@ export default class Categories extends React.Component {
             this.setState({
                 categories: response.data.result.rows
             });
+            console.log(this.state.categories);
         });
     }
     getSubCategories() {
-        axios.get('/api/getsubcategories')
+        axios.get('/api/getsubcategorieswithcount')
         .then((response) => {
             this.setState({
                 subcategories: response.data.result.rows
