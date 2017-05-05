@@ -1,10 +1,13 @@
 import React from 'react';
 
+import HomePage from '../containers/HomePage';
+
 const Start = () => {
     return (
         <div className="center">
-            <h1>Välkommen till Mörtfors Admin verktyg</h1>
-            <h5>Här kan du administrera Artiklar, Bilder, Kategorier och Författare.</h5>
+            <h1>Välkommen till Mörtfors Dagblad</h1>
+            <h5>Din lokala onlinetidning.</h5>
+            <HomePage/>
         </div>
     );
 }

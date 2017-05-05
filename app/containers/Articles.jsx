@@ -46,7 +46,7 @@ export default class Articles extends React.Component {
         });
     }
 
-    onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_id, imageText) {
+    onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_ids, imageTexts) {
         axios.post('/api/createarticle', {
             title: articleTitle,
             content: articleContent,
@@ -63,18 +63,20 @@ export default class Articles extends React.Component {
                     console.log('Something went wrong ', error);
                 });
             });
-
-            axios.post('/api/createarticleimage', {
-                article_id: article_id,
-                image_id: image_id,
-                text: imageText
-            })
-            .then((response) => {
-                this.getArticles();
-            })
-            .catch((error) => {
-                console.log('Something went wrong ', error);
+            image_ids.map((image, index) => {
+                axios.post('/api/createarticleimage', {
+                    article_id: article_id,
+                    image_id: image,
+                    text: imageTexts[index]
+                })
+                .then((response) => {
+                    this.getArticles();
+                })
+                .catch((error) => {
+                    console.log('Something went wrong ', error);
+                });
             });
+            
             
         })
         .catch((error) => {

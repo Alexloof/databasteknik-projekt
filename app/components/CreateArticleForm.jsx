@@ -8,7 +8,8 @@ export default class CreateAuthorForm extends React.Component {
             categories: [],
             subCategories: [],
             mainCategoryId: "",
-            images: []
+            images: [],
+            imageCount: ""
         }
     }
     componentDidUpdate() {
@@ -27,6 +28,14 @@ export default class CreateAuthorForm extends React.Component {
             $('select').material_select('destroy');
             $('select').material_select();
         });
+
+        $("#images").on('change', function () {
+            that.setState({
+                imageCount: parseInt($("#images").val())
+            });
+            $('select').material_select('destroy');
+            $('select').material_select();
+        });
     }
     componentWillReceiveProps(props) {
         this.setState({
@@ -37,13 +46,20 @@ export default class CreateAuthorForm extends React.Component {
         });
     }
     onsubmit(e) {
+        const that = this;
         e.preventDefault();
         const articleTitle = this.refs.titel.value.trim();
         const articleContent = this.refs.content.value.trim();
         const subCategoryID = this.menuThree.value;
         const authors = $("#authors").val();
-        const image_id = this.menuFour.value;
-        const imageText = this.refs.bildtext.value.trim();
+        const image_ids = $("#images").val();
+        const imageTexts = [];
+        image_ids.map( function (id, index) {
+            const testID = `${id}-test`
+            return(
+                imageTexts.push(that.refs[testID].value.trim())
+            );
+        });
 
         if (articleTitle.length < 1) {
             alert("Lite längre titel på artikeln tack!");
@@ -52,10 +68,9 @@ export default class CreateAuthorForm extends React.Component {
         } else if (subCategoryID.length < 1) {
             alert("Välj en Underkategori tack!");
         } else {
-            this.props.onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_id, imageText);
+            this.props.onCreateArticle(articleTitle, articleContent, subCategoryID, authors, image_ids, imageTexts);
             this.refs.titel.value = "";
             this.refs.content.value = "";
-            this.refs.bildtext.value = "";
         }
     }
     render() {
@@ -117,23 +132,30 @@ export default class CreateAuthorForm extends React.Component {
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
-                            <select ref={(input) => this.menuFour = input}>
-                                <option disabled selected>Välj en Bild till Artikeln</option>
+                            <select multiple ref={(input) => this.menuFour = input} id="images">
+                                <option disabled>Välj Bilder till Artikeln</option>
                                 {this.state.images.map((image, index) => {
                                     return (
-                                        <option key={index} value={image.image_id} >{image.alt_text}</option>
+                                        <option key={index} value={image.image_id} data-icon={image.image_ref} >#{index +1} {image.alt_text}</option>
                                     )
                                 })}
                             </select>
                             <label>Bild</label>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="input-field col s12">
-                            <input ref="bildtext" id="bildtext" type="text" className="validate" />
-                            <label htmlFor="bildtext">Bildtext</label>
-                        </div>
-                    </div>
+                    {this.state.imageCount > 0 ? 
+                        $("#images").val().map((image, index) => {
+                            return (
+                                <div key={index} className="row">
+                                    <div className="input-field col s12">
+                                        <input ref={`${image}-test`} id="bildtext" type="text" className="validate" />
+                                        <label htmlFor="bildtext">Bildtext #{index + 1}</label>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    : null}
+
                     <button className="waves-effect waves-light btn create-btn" type="submit">Spara</button>
                 </form>
             </div>
