@@ -272,6 +272,11 @@ router.get('/api/getFullArticles', (req, res, next) => {
                     }
                 }
             });
+            //sätta in sista artikeln
+            if (!cleanResult.includes(insertArticle)) {
+                cleanResult.push(insertArticle);
+            };
+
             return res.json(cleanResult)
             
         })
