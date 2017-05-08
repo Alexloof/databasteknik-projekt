@@ -12,6 +12,7 @@ export default class Read extends React.Component {
         }
 
         this.onSubmitComment = this.onSubmitComment.bind(this);
+        this.getArticleComments = this.getArticleComments.bind(this);
     }
 
     componentDidMount() {
@@ -21,18 +22,18 @@ export default class Read extends React.Component {
                 article: response.data[0]
             });
         });
+        this.getArticleComments();
+
     }
 
     getArticleComments() {
         axios.get(`/api/getArticleComments/?id=${this.props.params.id}`)
         .then((response) => {
             this.setState({
-                comments: response.result.rows
+                comments: response.data.result.rows
             })
-            console.log(this.state.comments)
         })
     }
-
 
     onSubmitComment(commenter, comment){
         axios.post('/api/createarticlecomment', {
@@ -41,7 +42,7 @@ export default class Read extends React.Component {
             comment
         })
         .then((response) => {
-            //this.getArticles();
+            this.getArticleComments();
         })
         .catch((error) => {
             console.log('Something went wrong ', error);
