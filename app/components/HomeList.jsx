@@ -29,7 +29,8 @@ export default class ImagesList extends React.Component {
                                             </p>
                                         </div>
                                         <div className="card-action">
-                                            <a style={{cursor: "pointer" }} onClick={() => this.props.openArticle(article.article_id)}>Read</a>
+                                            <a style={{cursor: "pointer", float: "left" }} onClick={() => this.props.openArticle(article.article_id)}>Read</a>
+                                            <p style={{margin: "0", float: "right"}}>{article.created_at}</p>
                                         </div>
                                     </div>
                                 </div>
