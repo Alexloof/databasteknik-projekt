@@ -8,8 +8,9 @@ const connectionString = 'postgres://ag7949:6n9id9en@pgserver.mah.se:5432/ag7949
 
 
 // stöd funktioner (refactor bort till annan fil sen kanske)
-
 const getNewTimestamp = () => new Date().toJSON().slice(0,10) + " " + new Date(new Date()).toString().split(' ')[4];
+
+const resultCleaner = require('../helpers/helpers');
 
 // Server start message
 console.log("Server is up on 'localhost:3000'");
@@ -206,81 +207,40 @@ router.get('/api/getFullArticles', (req, res, next) => {
                 return res.status(500).json({success: false, data: err});
             }          
             done();
-            const apiResult = result.rows;
-            const cleanResult = [];
-            let currentArticle = apiResult[0].article_id;
-
-            let insertArticle = {
-                article_id: currentArticle,
-                title: "",
-                content: "",
-                created_at: "",
-                subcategory: "",
-                authors: [],
-                images: []
-            }
-            apiResult.map((row, index) => {
-                if (row.article_id === currentArticle) {
-                    insertArticle.title = row.title;
-                    insertArticle.content = row.content;
-                    insertArticle.created_at = row.created_at;
-                    insertArticle.subcategory = row.subcategory;
-
-                    if (insertArticle.authors.length === 0) {
-                        insertArticle.authors.push({ firstname: row.firstname, surname: row.surname });
-                    } else {
-                        if (!insertArticle.authors.find((author) => { return author.firstname === row.firstname && author.surname == row.surname })) {
-                            insertArticle.authors.push({ firstname: row.firstname, surname: row.surname });
-                        }
-                    }
-
-                    if (insertArticle.images.length === 0) {
-                        insertArticle.images.push({ image_ref: row.image_ref, alt_text: row.alt_text, text: row.text });
-                    } else {
-                        if (!insertArticle.images.find((images) => { return images.image_ref === row.image_ref && images.alt_text == row.alt_text })) {
-                            insertArticle.images.push({ image_ref: row.image_ref, alt_text: row.alt_text, text: row.text });
-                        }
-                    }
-
-                } else {
-                    if (!cleanResult.includes(insertArticle)) {
-                        cleanResult.push(insertArticle);
-                    }
-                    currentArticle = row.article_id;
-                    insertArticle = { article_id: row.article_id }
-                    insertArticle.title = row.title;
-                    insertArticle.content = row.content;
-                    insertArticle.created_at = row.created_at;
-                    insertArticle.subcategory = row.subcategory;
-                    insertArticle.authors = [];
-                    insertArticle.images = [];
-
-                    if (insertArticle.authors.length === 0) {
-                        insertArticle.authors.push({ firstname: row.firstname, surname: row.surname });
-                    } else {
-                        if (!insertArticle.authors.find((author) => { return author.firstname === row.firstname && author.surname == row.surname })) {
-                            insertArticle.authors.push({ firstname: row.firstname, surname: row.surname });
-                        }
-                    }
-
-                    if (insertArticle.images.length === 0) {
-                        insertArticle.images.push({ image_ref: row.image_ref, alt_text: row.alt_text, text: row.text });
-                    } else {
-                        if (!insertArticle.images.find((images) => { return images.image_ref === row.image_ref && images.alt_text == row.alt_text })) {
-                            insertArticle.images.push({ image_ref: row.image_ref, alt_text: row.alt_text, text: row.text });
-                        }
-                    }
-                }
-            });
-            //sätta in sista artikeln
-            if (!cleanResult.includes(insertArticle)) {
-                cleanResult.push(insertArticle);
-            };
-
+            const cleanResult = resultCleaner(result.rows);
             return res.json(cleanResult)
-            
-        })
-    })
+        });
+    });
+});
+
+router.get('/api/getOneFullArticle', (req, res, next) => {
+    const article_id = req.query.id;
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query(`SELECT art.article_id, art.title, art.content, art.subcategory, art.created_at, img1.image_ref, auth.firstname, auth.surname, img1.alt_text, artimg1.text
+                        FROM article AS art 
+                        INNER JOIN Article_image AS artimg1 ON art.article_id = artimg1.article_id 
+                        INNER JOIN Image AS img1 ON img1.image_id = artimg1.image_id
+                        INNER JOIN Article_author AS artauth on art.article_id = artauth.article_id
+                        INNER JOIN Author as auth on artauth.socialsecuritynumber = auth.socialsecuritynumber 
+                        GROUP BY art.article_id, img1.image_ref, artauth.socialsecuritynumber, auth.firstname, auth.surname, img1.alt_text, artimg1.text
+                        HAVING art.article_id = ($1)`, [article_id], (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }          
+            done();
+            const cleanResult = resultCleaner(result.rows);
+            return res.json(cleanResult)
+        });
+    });
 });
 
 router.get('/api/getArticles', (req, res, next) => {
@@ -314,6 +274,29 @@ router.get('/api/getArticleImage', (req, res, next) => {
         }
 
         client.query(`SELECT * from Article_image ORDER BY created_at DESC`, (err, result) => {
+
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }
+
+            done();
+            return res.json({result});
+        })
+    })
+});
+
+router.get('/api/getArticleComments', (req, res, next) => {
+    const article_id = req.query.id;
+    pg.connect(connectionString, (err, client, done) => {
+        // error handler
+        if (err) {
+            console.log(err);
+            return res.status(500).json({success: false, data: err});
+        }
+
+        client.query(`SELECT * from Article_comment WHERE article_id = ($1) ORDER BY created_at DESC`, [article_id] ,(err, result) => {
 
             if (err) {
                 done();

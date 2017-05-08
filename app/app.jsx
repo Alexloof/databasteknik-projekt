@@ -9,6 +9,7 @@ import Articles from './containers/Articles';
 import Authors from './containers/Authors';
 import Categories from './containers/Categories';
 import Images from './containers/Images';
+import Read from './containers/Read';
 
 // Load Materialize-CSS
 require("materialize-loader");
@@ -20,6 +21,7 @@ ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/" component={Main}>
             <IndexRoute component={Start}/>
+            <Route path="read/:id" component={Read}/>
             <Route path="articles" component={Articles}/>
             <Route path="authors" component={Authors}/>
             <Route path="categories" component={Categories}/>

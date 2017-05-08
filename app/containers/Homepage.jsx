@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {hashHistory} from 'react-router';
 
 import HomeList from '../components/HomeList';
 import HomeCategoryList from '../components/HomeCategoryList';
@@ -50,7 +51,9 @@ export default class Categories extends React.Component {
             });
     }
     openArticle(article) {
-        console.log(article);
+        hashHistory.push({
+            pathname: `/read/${article}`
+        });
     }
     render() {
         return (

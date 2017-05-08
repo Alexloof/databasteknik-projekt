@@ -34,3 +34,26 @@ nav {
         background-color: rgba(69, 69, 69, 0.1);
     }
 }
+
+.card.horizontal {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        .card-stacked {
+            height: 250px;
+            .card-content {
+                height: 80%;
+            }
+        }
+        .card-image img {
+            display: block;
+            border-radius: 2px 2px 0 0;
+            position: relative;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 260px;
+            height: 100%;
+        }
+    }
